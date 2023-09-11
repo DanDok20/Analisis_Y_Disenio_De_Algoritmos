@@ -1,0 +1,112 @@
+"""
+from sys import stdin
+
+n = 0
+
+
+def vuelta_rezagado(x, y, unidad):
+
+  global n
+  diferencia_de_y = (x * 100) / y
+
+  #print(diferencia_de_y)
+
+  resultado = 100 - diferencia_de_y
+
+  bandera = 0
+  while bandera == 0:  #resultado < 100:
+    #print(n)
+    #print(resultado * (n + unidad))
+    if resultado * (n + unidad) > 100:
+      bandera = 1
+    else:
+      n += unidad
+    if resultado * (n +
+                    unidad) > 100 and resultado * (n) < 100 and unidad == 1:
+      n += unidad
+
+
+# python sol.py < a.in > a.out
+
+
+def main():
+  line = stdin.readline().strip()
+  while line != "":
+    x, y = map(int, line.split())
+    cambio = str(x)
+    unidad = 10**(len(cambio) - 1)
+    vuelta_rezagado(x, y, unidad)
+    for i in range(len(cambio)):
+      vuelta_rezagado(x, y, unidad / 10**i)
+    global n
+    print(n)
+    n = 0
+    line = stdin.readline()
+
+
+main()
+"""
+"""
+from sys import stdin
+
+respuesta = None
+
+def vuelta_rezagado(min, max, mitad, diferencia):
+  global respuesta
+  if diferencia * mitad == 100:
+    respuesta = mitad
+  elif min + 1 == max:
+    if diferencia * min > 100: respuesta = min
+    else: respuesta = max
+  else:
+    if diferencia * mitad < 100:
+      centro = mitad + ((max - mitad) >> 1)
+      vuelta_rezagado(mitad, max, centro, diferencia)
+    elif diferencia * mitad > 100:
+      centro = min + ((mitad - min) >> 1)
+      vuelta_rezagado(min, mitad, centro, diferencia)
+  return respuesta
+
+
+def main():
+  line = stdin.readline().strip()
+  while line != "":
+    min, max = map(int, line.split())
+    mitad = 2 + ((max - 2) >> 1)
+    diferencia = 100 - ((min * 100) / max)
+    print(vuelta_rezagado(2, max, mitad, diferencia))
+    line = stdin.readline()
+main()
+"""
+"""
+from sys import stdin
+
+respuesta = None
+
+
+def vuelta_rezagado(x, y, min, max, mitad):
+  global respuesta
+  if (y * (mitad - 1)) / (x * mitad) == 1:
+    respuesta = mitad
+  elif min + 1 == max:
+    if (y * (mitad - 1)) / (x * mitad) == 1: respuesta = min
+    else: respuesta = max
+  else:
+    if (y * (mitad - 1)) / (x * mitad) < 1:
+      centro = mitad + ((max - mitad) >> 1)
+      vuelta_rezagado(x, y, mitad, max, centro)
+    elif (y * (mitad - 1)) / (x * mitad) > 1:
+      centro = min + ((mitad - min) >> 1)
+      vuelta_rezagado(x, y, min, mitad, centro)
+  return respuesta
+
+
+def main():
+  line = stdin.readline().strip()
+  while line != "":
+    min, max = map(int, line.split())
+    mitad = 2 + ((max - 2) >> 1)
+    print(vuelta_rezagado(min, max, 2, max, mitad))
+    line = stdin.readline()
+main()
+"""
